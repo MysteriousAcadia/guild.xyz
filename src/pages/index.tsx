@@ -5,7 +5,7 @@ import {
   Stack,
   Tag,
   Text,
-  useColorMode,
+  useColorMode
 } from "@chakra-ui/react"
 import AddCard from "components/common/AddCard"
 import Layout from "components/common/Layout"
@@ -39,6 +39,8 @@ const Page = ({ guilds: guildsInitial }: Props): JSX.Element => {
     usersGuildsIds,
     searchInput
   )
+  const [barrelRoll, setBarrelRoll] = useState(false);
+  const [runAway, setRunAway] = useState(false);
 
   // Setting up the dark mode, because this is a "static" page
   const { setColorMode } = useColorMode()
@@ -46,6 +48,22 @@ const Page = ({ guilds: guildsInitial }: Props): JSX.Element => {
   useEffect(() => {
     setColorMode("dark")
   }, [])
+  useEffect(() => {
+    if (searchInput === "barrelroll") {
+      setBarrelRoll(true);
+    }
+    else if (searchInput === "runaway") {
+      setRunAway(true);
+    }
+    else {
+      setBarrelRoll(false);
+      setRunAway(false);
+    }
+  },[searchInput])
+  const listener = (event) => {
+    console.log(barrelRoll);
+      setBarrelRoll((barrelRoll)=>!barrelRoll);
+    }
 
   return (
     <Layout
@@ -54,16 +72,21 @@ const Page = ({ guilds: guildsInitial }: Props): JSX.Element => {
       imageUrl="/guildLogos/logo.svg"
       imageBg="transparent"
     >
+                        <div className={`${runAway ? "run" : ""}`}>
+
       <SimpleGrid
         templateColumns={{ base: "auto 50px", md: "1fr 1fr 1fr" }}
         gap={{ base: 2, md: "6" }}
         mb={16}
       >
+
         <GridItem colSpan={{ base: 1, md: 2 }}>
           <SearchBar placeholder="Search guilds" setSearchInput={setSearchInput} />
         </GridItem>
         <OrderSelect data={guilds} setOrderedData={setOrderedGuilds} />
+
       </SimpleGrid>
+                  </div>
 
       <HallsGuildsNav />
 
@@ -77,7 +100,7 @@ const Page = ({ guilds: guildsInitial }: Props): JSX.Element => {
           {usersGuilds.length ? (
             filteredUsersGuilds.length &&
             filteredUsersGuilds
-              .map((guild) => <GuildCard key={guild.id} guildData={guild} />)
+              .map((guild) => <div className={`${barrelRoll?"barrel":""}`}><GuildCard key={guild.id} guildData={guild} /></div>)
               .concat(
                 <AddCard
                   key="create-guild"
@@ -104,7 +127,7 @@ const Page = ({ guilds: guildsInitial }: Props): JSX.Element => {
         >
           {filteredGuilds.length &&
             filteredGuilds.map((guild) => (
-              <GuildCard key={guild.id} guildData={guild} />
+              <div className={`${barrelRoll?"barrel":""}`}><GuildCard key={guild.id} guildData={guild} /></div>
             ))}
         </CategorySection>
       </Stack>

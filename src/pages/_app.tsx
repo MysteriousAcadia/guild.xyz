@@ -8,7 +8,9 @@ import type { AppProps } from "next/app"
 import { IconContext } from "phosphor-react"
 import { SWRConfig } from "swr"
 import "theme/custom-scrollbar.css"
+import "theme/hidden-animations.css"
 import fetchApi from "utils/fetchApi"
+
 
 const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) =>
   new Web3Provider(provider)

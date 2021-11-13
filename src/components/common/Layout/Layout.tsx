@@ -7,7 +7,7 @@ import {
   Text,
   useBreakpointValue,
   useColorMode,
-  VStack,
+  VStack
 } from "@chakra-ui/react"
 import Head from "next/head"
 import Image from "next/image"
@@ -17,7 +17,7 @@ import {
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from "react"
 import GuildLogo from "../GuildLogo"
 import Footer from "./components/Footer"
@@ -54,6 +54,7 @@ const Layout = ({
   const isMobile = useBreakpointValue({ base: true, md: false })
   const childrenWrapper = useRef(null)
   const [bgHeight, setBgHeight] = useState("0")
+  const [homeClick, setHomeClick] = useState(0);
 
   useIsomorphicLayoutEffect(() => {
     if (!childrenWrapper?.current) return
@@ -135,7 +136,7 @@ const Layout = ({
               w="full"
             >
               <HStack alignItems="center" spacing={{ base: 3, md: 4, lg: 5 }}>
-                {imageUrl && (
+                {imageUrl && (<div onClick={() => setHomeClick((homeClick)=>homeClick+1)} className={`${homeClick>0 &&homeClick%5==0&&"parcel"}`}>
                   <GuildLogo
                     imageUrl={imageUrl}
                     size={{ base: 10, md: 12, lg: 14 }}
@@ -143,6 +144,7 @@ const Layout = ({
                     mt={{ base: 1, lg: 2 }}
                     bgColor={imageBg ? imageBg : undefined}
                   />
+                  </div>
                 )}
                 <Heading
                   as="h1"

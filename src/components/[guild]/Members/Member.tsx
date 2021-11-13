@@ -31,7 +31,7 @@ const Member = ({ address }: Props): JSX.Element => {
         fontSize="sm"
         isTruncated
         maxW="full"
-        title={ENSName || address}
+        title={"ENSName" || address}
       >
         {ENSName || `${shortenHex(address, 3)}`}
       </Text>
